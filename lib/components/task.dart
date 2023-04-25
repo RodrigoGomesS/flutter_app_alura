@@ -14,6 +14,7 @@ class Task extends StatefulWidget {
 
 class _TaskState extends State<Task> {
   int nivel = 0;
+  double maxNivel = 0;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -23,7 +24,7 @@ class _TaskState extends State<Task> {
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4),
-              color: Colors.yellow,
+              color: changeColor(),
             ),
             height: 140,
           ),
@@ -81,8 +82,11 @@ class _TaskState extends State<Task> {
                             ),
                             onPressed: () {
                               setState(() {
-                                nivel++;
+                                if (maxNivel < 1) {
+                                  nivel++;
+                                }
                               });
+                              print(maxNivel);
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -116,7 +120,7 @@ class _TaskState extends State<Task> {
                         backgroundColor: Colors.white38,
                         color: Colors.black,
                         value: (widget.dificuldade > 0)
-                            ? (nivel / widget.dificuldade) / 10
+                            ? maxNivel = ((nivel / widget.dificuldade) / 10)
                             : 1,
                       ),
                     ),
@@ -124,7 +128,7 @@ class _TaskState extends State<Task> {
                   Padding(
                     padding: const EdgeInsets.all(8),
                     child: Text(
-                      'Nível: $nivel/10',
+                      'Nível: $nivel',
                       style: const TextStyle(fontSize: 16),
                     ),
                   ),
@@ -135,5 +139,19 @@ class _TaskState extends State<Task> {
         ],
       ),
     );
+  }
+
+  changeColor() {
+    if (maxNivel < 0.5) {
+      return Colors.yellow;
+    }
+
+    if (maxNivel >= 0.5 && maxNivel < 1) {
+      return Colors.orange;
+    }
+
+    if (maxNivel == 1.0) {
+      return Colors.red;
+    }
   }
 }
